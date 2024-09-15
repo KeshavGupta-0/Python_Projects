@@ -1,2 +1,3 @@
 # Python_Projects
-These are the my Python Projects.
+My Python Projects are as follows:
+1) Calculator
