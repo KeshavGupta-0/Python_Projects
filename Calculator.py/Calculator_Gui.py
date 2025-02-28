@@ -32,7 +32,7 @@ class func():
         entry.insert(END,"2")
 
     def buto3():
-        entry.insert(END,"1")
+        entry.insert(END,"3")
 
     def buto4():
         entry.insert(END,"4")
