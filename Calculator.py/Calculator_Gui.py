@@ -1,5 +1,4 @@
 from tkinter import *
-import Calculator_Code as cc
 window=Tk()
 
 window.config(background="black")
@@ -27,30 +26,55 @@ class func():
                 self.create_button(text,command,row,col)
 
     def history(self,_=None):
-        f=open("Calculator.txt","r")
         self.entry.delete(0,END)
-        self.entry.insert(END,f.read())
+        with open("Calculator.txt","r") as f:
+            self.entry.insert(END,f.read())
 
     def equal(self,_=None):
-        a=self.entry.get()
-        f=open("Calculator.txt","a")
-        f.write(f"{self.entry.get()}={cc.calc.cal(a)}|")
-        f.close()
-        self.entry.delete(0,END)
-        self.entry.insert(END,cc.calc.cal(a))
-            
+        try:
+            a=self.entry.get()
+            if "x" in a:
+                a=a.replace("x","*")
+            if "%" not in a:
+                with open("Calculator.txt","a") as f:
+                    f.write(f"{self.entry.get()}={eval(a)}|")
+                self.entry.delete(0,END)
+                self.entry.insert(END,eval(a))
+            else:
+                c="%"
+                b=a.find(c)
+                if (a[b+1:])=="":
+                    with open("Calculator.txt","a") as f:
+                        f.write(f"{self.entry.get()}={round((float(a[:b])/100*1),2)}|")
+                        self.entry.delete(0,END)
+                        self.entry.insert(END,round((float(a[:b])/100*1),2))
+                else:
+                    with open("Calculator.txt","a") as f:
+                        f.write(f"{self.entry.get()}={round((float(a[:b])*(float(a[b+1:])))/100,2)}|")
+                        self.entry.delete(0,END)
+                        self.entry.insert(END,round((float(a[:b])*(float(a[b+1:])))/100,2))
+        except ValueError:
+            self.entry.delete(0,END)
+            self.entry.insert(END,"Invalid Input")
+            with open("Calculator.txt","a") as f:
+                f.write(f"{self.entry.get()}=Invalid Input")
+        except SyntaxError:
+                self.entry.delete(0,END)
+                self.entry.insert(END,"Invalid Input")
+                with open("Calculator.txt","a") as f:
+                    f.write(f"{self.entry.get()}=Invalid Input")
+
     def dele(self,_=None):
         self.entry.delete(len(self.entry.get())-1,END)
 
     def ac(self,_=None):
         self.entry.delete(0,END)
-        f=open("Calculator.txt","w")
-        f.write("")
-        f.close()
+        with open("Calculator.txt","w") as f:
+            f.write("")
 
     def create_button(self,text,command,row,col):
         button=Button(text=text,font=("Comic Sans MS",20,"bold"),bg="blue",fg="white",
-                    activebackground="grey",padx=10,pady=10,relief=RAISED,border=10,width=5,height=1,command=lambda t=text: command(t))
+                    activebackground="grey",padx=5,pady=5,relief=RAISED,border=10,width=3,height=1,command=lambda t=text: command(t))
         button.grid(row=row,column=col,sticky="nsew")
             
     def insert_text(self,t):
