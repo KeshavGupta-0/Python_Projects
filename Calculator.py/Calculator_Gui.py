@@ -8,9 +8,14 @@ class func():
 
     def __init__(self):
         #Entry
-        self.entry=Entry(window,font=("Comic Sans MS",30),bg="Black",fg="Grey",relief=RAISED,border=10,insertbackground="white")
+        self.entry=Entry(window,font=("Comic Sans MS",15),bg="Black",fg="Grey",relief=RAISED,border=6,insertbackground="white")
         self.entry.grid(row=0,column=0,columnspan=3,sticky="nsew")
         self.entry.icursor(len(self.entry.get()))
+
+        for i in range(6):
+            window.grid_rowconfigure(i, weight=1)
+        for i in range(4):
+            window.grid_columnconfigure(i, weight=1)
 
     def buttons(self):
         buttons = [
@@ -73,8 +78,8 @@ class func():
             f.write("")
 
     def create_button(self,text,command,row,col):
-        button=Button(text=text,font=("Comic Sans MS",20,"bold"),bg="blue",fg="white",
-                    activebackground="grey",padx=5,pady=5,relief=RAISED,border=10,width=3,height=1,command=lambda t=text: command(t))
+        button=Button(text=text,font=("Comic Sans MS",15,"bold"),bg="blue",fg="white",
+                    activebackground="grey",padx=3,pady=3,relief=RAISED,border=6,width=2,height=1,command=lambda t=text: command(t))
         button.grid(row=row,column=col,sticky="nsew")
             
     def insert_text(self,t):
